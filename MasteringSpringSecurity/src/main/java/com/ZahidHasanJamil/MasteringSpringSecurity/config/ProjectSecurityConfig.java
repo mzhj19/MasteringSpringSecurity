@@ -6,10 +6,14 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+
+import javax.sql.DataSource;
 
 @Configuration
 public class ProjectSecurityConfig {
@@ -64,13 +68,18 @@ public class ProjectSecurityConfig {
     *
     * */
 
-    @Bean
+
+    /**
+     * This for inMemory
+     *
+     */
+/*    @Bean
     public InMemoryUserDetailsManager userDetailsService() {
 
-        /**
+        *//**
          *         Approach 1 where we use withDefaultPasswordEncoder() method
          *         while creating the user details
-         */
+         *//*
         UserDetails admin = User.withDefaultPasswordEncoder()
                 .username("admin")
                 .password("12345")
@@ -84,11 +93,11 @@ public class ProjectSecurityConfig {
         return new InMemoryUserDetailsManager(admin, user);
 
 
-        /**
+        *//**
          * Approach 2 where we use NoOpPasswordEncoder Bean
          * 		while creating the user details
-         */
-/*        UserDetails admin = User.withUsername("admin")
+         *//*
+*//*        UserDetails admin = User.withUsername("admin")
                 .password("admin")
                 .authorities("admin")
                 .build();
@@ -96,13 +105,30 @@ public class ProjectSecurityConfig {
                 .password("user")
                 .authorities("read")
                 .build();
-        return new InMemoryUserDetailsManager(admin, user);*/
+        return new InMemoryUserDetailsManager(admin, user);*//*
 
+    }*/
+
+
+
+
+
+    /**
+     * This for Jdbc-mysql
+     */
+    @Bean
+    public UserDetailsService userDetailsService(DataSource dataSource) {
+        // datasource is created automatically based on the properties file
+        return new JdbcUserDetailsManager(dataSource);
     }
 
-/*    @Bean
+
+    /**
+     * Its for all
+     */
+    @Bean
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
-    }*/
+    }
 
 }
