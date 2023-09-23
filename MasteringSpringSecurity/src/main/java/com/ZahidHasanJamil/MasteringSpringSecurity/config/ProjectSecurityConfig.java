@@ -33,8 +33,9 @@ public class ProjectSecurityConfig {
         /**
          *  Below is the custom security configurations
          */
-        http.authorizeHttpRequests((requests) -> requests.requestMatchers("/myAccount","/myBalance","/myLoans","/myCards").authenticated()
-                        .requestMatchers("/welcome","/notices","/contact").permitAll())
+        http.csrf().disable()
+                .authorizeHttpRequests((requests) -> requests.requestMatchers("/myAccount","/myBalance","/myLoans","/myCards").authenticated()
+                        .requestMatchers("/welcome","/register","/notices","/contact").permitAll())
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults());
         return http.build();
@@ -116,11 +117,11 @@ public class ProjectSecurityConfig {
     /**
      * This for Jdbc-mysql
      */
-    @Bean
+/*    @Bean
     public UserDetailsService userDetailsService(DataSource dataSource) {
         // datasource is created automatically based on the properties file
         return new JdbcUserDetailsManager(dataSource);
-    }
+    }*/
 
 
     /**
