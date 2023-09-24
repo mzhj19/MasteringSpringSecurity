@@ -1,3 +1,8 @@
+/**
+ * No need if we use custom authenticationProvider, not use daoAuthenticationProvider
+ */
+
+/*
 package com.ZahidHasanJamil.MasteringSpringSecurity.service;
 
 import com.ZahidHasanJamil.MasteringSpringSecurity.model.Customer;
@@ -35,3 +40,4 @@ public class MyBankUserDetailsService implements UserDetailsService {
         return new User(userName,password,authorities);
     }
 }
+*/
