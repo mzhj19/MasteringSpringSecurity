@@ -1,6 +1,9 @@
 package com.ZahidHasanJamil.MasteringSpringSecurity.config;
 
+import com.ZahidHasanJamil.MasteringSpringSecurity.filter.AuthoritiesLoggingAfterFilter;
+import com.ZahidHasanJamil.MasteringSpringSecurity.filter.AuthoritiesLoggingAtFilter;
 import com.ZahidHasanJamil.MasteringSpringSecurity.filter.CsrfCookieFilter;
+import com.ZahidHasanJamil.MasteringSpringSecurity.filter.RequestValidationBeforeFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -60,6 +63,9 @@ public class ProjectSecurityConfig {
                 .csrf((csrf) -> csrf.csrfTokenRequestHandler(requestHandler).ignoringRequestMatchers("/contact", "/register")
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
+                .addFilterBefore(new RequestValidationBeforeFilter(), BasicAuthenticationFilter.class)
+                .addFilterAt(new AuthoritiesLoggingAtFilter(), BasicAuthenticationFilter.class)
+                .addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class)
 
                 .authorizeHttpRequests((requests)->requests
                         /*
